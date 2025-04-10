@@ -20,16 +20,4 @@ public static class SquareMatrixExtensionMethods {
 
         return trace;
     }
-    
-    public static SquareMatrix ToDiagonalForm(this SquareMatrix matrix) {
-        for (int row = 0; row < matrix.Size; ++row) {
-            for (int col = 0; col < matrix.Size; ++col) {
-                if (row != col) {
-                    matrix.Matrix[row, col] = 0;
-                }
-            }
-        }
-
-        return matrix;
-    }
 }

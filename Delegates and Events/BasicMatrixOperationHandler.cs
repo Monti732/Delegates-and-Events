@@ -1,24 +1,26 @@
-﻿using Delegates_and_Events;
+﻿namespace Delegates_and_Events;
 
 public class BasicMatrixOperationHandler : MatrixOperationHandler {
   public override void HandleOperation(int operationChoice, ref SquareMatrix matrixA, ref SquareMatrix matrixB) {
     switch (operationChoice) {
-    case 1:
+    case 0:
       try {
         SquareMatrix result = matrixA + matrixB;
         Console.WriteLine("Addition Result:");
         Console.WriteLine(result);
+        Console.ReadKey();
       }
       catch (MatrixException ex) {
         Console.WriteLine($"Error: {ex.Message}");
       }
 
       break;
-    case 2:
+    case 1:
       try {
         SquareMatrix result = matrixA * matrixB;
         Console.WriteLine("Multiplication Result:");
         Console.WriteLine(result);
+        Console.ReadKey();
       }
       catch (MatrixException ex) {
         Console.WriteLine($"Error: {ex.Message}");
