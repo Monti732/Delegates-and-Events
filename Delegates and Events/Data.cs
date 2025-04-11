@@ -7,6 +7,7 @@ public struct Data {
     "Create New Matrix A", "Create New Matrix B", "Display both Matrices", "Exit"
   ];
 
-  public static string[] InitMenuItems = ["Automatically", "Manually"];
-  public static SquareMatrix matrixA, matrixB;
+  public static string[] MatrixMenuFillTypeItems = ["Automatically", "Manually"];
+  public static string[] MatrixMenuSizeItems = ["New size(You have to create two new matrices", "Old size"];
+  public static string[] MatrixList = ["Matrix A", "Matrix B"];
 }

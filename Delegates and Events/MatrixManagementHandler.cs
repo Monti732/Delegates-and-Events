@@ -2,12 +2,34 @@
 
 public class MatrixManagementHandler : MatrixOperationHandler {
   public override void HandleOperation(int operationChoice, ref SquareMatrix matrixA, ref SquareMatrix matrixB) {
+    //the god of optimization gonna kill me
+    var creationMatrixMenu = new CreationMatrixMenu(Data.MatrixMenuFillTypeItems);
+    var sizeMenu = new Menu(Data.MatrixMenuSizeItems);
+    int sizeChoice = -1;
     switch (operationChoice) {
     case 8:
-      matrixA = CreateMatrix();
+      sizeMenu.OnItemSelected += choice => { sizeChoice = choice; };
+      sizeMenu.Show();
+      if (sizeChoice == 0) {
+        matrixA = creationMatrixMenu.CreateMatrixWithNewSize();
+        matrixB = creationMatrixMenu.CreateMatrixWithOldSize(matrixA.Size);
+      }
+      else {
+        matrixA = creationMatrixMenu.CreateMatrixWithOldSize(matrixA.Size);
+      }
+
       break;
     case 9:
-      matrixB = CreateMatrix();
+      sizeMenu.OnItemSelected += choice => { sizeChoice = choice; };
+      sizeMenu.Show();
+      if (sizeChoice == 0) {
+        matrixA = creationMatrixMenu.CreateMatrixWithNewSize();
+        matrixB = creationMatrixMenu.CreateMatrixWithOldSize(matrixA.Size);
+      }
+      else {
+        matrixA = creationMatrixMenu.CreateMatrixWithOldSize(matrixA.Size);
+      }
+
       break;
     case 10:
       Console.Clear();
@@ -19,17 +41,5 @@ public class MatrixManagementHandler : MatrixOperationHandler {
       Environment.Exit(0);
       break;
     }
-  }
-
-  private static SquareMatrix CreateMatrix() {
-    int size;
-    int fillByYourself;
-    Console.Clear();
-    Console.WriteLine("Enter the size of the matrix: ");
-    size = Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine("Enter the type of filling: ");
-    fillByYourself = Convert.ToInt32(Console.ReadLine());
-
-    return new SquareMatrix(size, fillByYourself);
   }
 }

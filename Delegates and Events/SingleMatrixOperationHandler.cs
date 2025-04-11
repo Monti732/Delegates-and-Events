@@ -4,22 +4,38 @@ public class SingleMatrixOperationHandler : MatrixOperationHandler {
   private delegate SquareMatrix DiagonalizeMatrixDelegate(SquareMatrix matrix);
 
   public override void HandleOperation(int operationChoice, ref SquareMatrix matrixA, ref SquareMatrix matrixB) {
+    //seems like this break the chain of responsibility pattern logic
+    ////but I don't know how to do it another way
+    if (operationChoice > 7 && _nextHandler != null) { 
+      _nextHandler.HandleOperation(operationChoice, ref matrixA, ref matrixB); 
+      return;
+    }
+    
+    Console.Clear();
+
+    var matrixChoiceMenu = new Menu(Data.MatrixList); 
+    //very stupid but compiler gets angry without(Local variable 'matrixChoice' might not be initialized before accessing)
+    int matrixChoice = -1; 
+    matrixChoiceMenu.OnItemSelected += choice => { matrixChoice = choice; };
+    if (operationChoice != 7) matrixChoiceMenu.Show();
+    
     switch (operationChoice) {
     case 2:
-      SquareMatrix transposed = matrixA.Transpose();
-      Console.WriteLine("Transposed Matrix:");
+      SquareMatrix transposed = (matrixChoice == 0) ? matrixA.Transpose() : matrixB.Transpose();
+
+      Console.WriteLine($"Transposed {Data.MatrixList[matrixChoice]}\n");
       Console.WriteLine(transposed);
       Console.ReadKey();
       break;
     case 3:
-      double trace = matrixA.FindTrace();
-      Console.WriteLine($"Matrix Trace: {trace}");
+      double trace = (matrixChoice == 0) ? matrixA.FindTrace() : matrixB.FindTrace();
+      Console.WriteLine($"{Data.MatrixList[matrixChoice]} Trace: {trace}");
       Console.ReadKey();
       break;
     case 4:
       try {
-        double det = matrixA.Determinant();
-        Console.WriteLine($"Matrix Determinant: {det}");
+        double det = (matrixChoice == 0) ? matrixA.Determinant() : matrixB.Determinant();
+        Console.WriteLine($"{Data.MatrixList[matrixChoice]} Determinant: {det}");
       }
       catch (MatrixException ex) {
         Console.WriteLine($"Error: {ex.Message}");
@@ -29,8 +45,8 @@ public class SingleMatrixOperationHandler : MatrixOperationHandler {
       break;
     case 5:
       try {
-        SquareMatrix inverse = matrixA.Inverse();
-        Console.WriteLine("Inverse Matrix:");
+        SquareMatrix inverse = (matrixChoice == 0) ? matrixA.Inverse() : matrixB.Inverse();
+        Console.WriteLine($"Inverse {Data.MatrixList[matrixChoice]}:\n");
         Console.WriteLine(inverse);
       }
       catch (MatrixException ex) {
@@ -53,16 +69,20 @@ public class SingleMatrixOperationHandler : MatrixOperationHandler {
         return diagonal;
       };
 
-      SquareMatrix diagonalMatrix = diagonalizeMatrix(matrixA);
-      Console.WriteLine("Diagonal Form: ");
+      SquareMatrix diagonalMatrix = (matrixChoice == 0) ? diagonalizeMatrix(matrixA) : diagonalizeMatrix(matrixB);
+      Console.WriteLine($"Diagonal Form of {Data.MatrixList[matrixChoice]}:\n");
       Console.WriteLine(diagonalMatrix);
       Console.ReadKey();
       break;
     case 7:
-      string comparison = matrixA.CompareTo(matrixB) switch { // .NET 9.0 is something
-        > 0 => "Matrix A > Matrix B",                         // switch statement takes the result of CompareTo
-        < 0 => "Matrix A < Matrix B",                         // and on base of result(true, false, other)
-        _ => "Matrix A = Matrix B"                            // save the concrete string to variable. Crazy.
+      // .NET 9.0 is something
+      // switch statement takes the result of CompareTo
+      // and on base of result(true, false, other)
+      // save the concrete string to variable. Crazy.
+      string comparison = matrixA.CompareTo(matrixB) switch { 
+        > 0 => "Matrix A > Matrix B", 
+        < 0 => "Matrix A < Matrix B", 
+        _ => "Matrix A = Matrix B" 
       };
       Console.WriteLine(comparison);
       Console.ReadKey();

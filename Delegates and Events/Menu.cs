@@ -2,14 +2,15 @@
 
 public class Menu {
   private string[] _menuItems;
-  private int _selectedIndex;
+  protected int selectedIndex;
   private int _row, _col;
+  public int SelectedIndex => selectedIndex;
 
   public event Action<int>? OnItemSelected;
   
   public Menu(string[] items) {
     _menuItems = items;
-    _selectedIndex = 0;
+    selectedIndex = 0;
   }
 
   public void Show() {
@@ -20,15 +21,15 @@ public class Menu {
       DrawMenu();
       switch (Console.ReadKey(true).Key) {
       case ConsoleKey.DownArrow:
-        if (_selectedIndex < _menuItems.Length - 1)
-          _selectedIndex++;
+        if (selectedIndex < _menuItems.Length - 1)
+          selectedIndex++;
         break;
       case ConsoleKey.UpArrow:
-        if (_selectedIndex > 0)
-          _selectedIndex--;
+        if (selectedIndex > 0)
+          selectedIndex--;
         break;
       case ConsoleKey.Enter:
-        OnItemSelected?.Invoke(_selectedIndex);
+        OnItemSelected?.Invoke(selectedIndex);
         return;
       }
     }
@@ -37,7 +38,7 @@ public class Menu {
   private void DrawMenu() {
     Console.SetCursorPosition(_col, _row);
     for (int counter = 0; counter < _menuItems.Length; counter++) {
-      if (counter == _selectedIndex) {
+      if (counter == selectedIndex) {
         Console.BackgroundColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Black;
       }
