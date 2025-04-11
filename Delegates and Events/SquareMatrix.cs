@@ -35,7 +35,6 @@ public class SquareMatrix : ICloneable, IComparable<SquareMatrix> {
           while (true) {
             try {
               Console.WriteLine("Enter elements of the matrix:");
-
               Console.Write($"Element [{rows},{cols}]: ");
               int value = int.Parse(Console.ReadLine());
 

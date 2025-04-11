@@ -4,8 +4,8 @@ public class SingleMatrixOperationHandler : MatrixOperationHandler {
   private delegate SquareMatrix DiagonalizeMatrixDelegate(SquareMatrix matrix);
 
   public override void HandleOperation(int operationChoice, ref SquareMatrix matrixA, ref SquareMatrix matrixB) {
-    //seems like this break the chain of responsibility pattern logic
-    ////but I don't know how to do it another way
+    //seems like this break the chain of responsibility pattern logic,
+    //but I don't know how to do it another way
     if (operationChoice > 7 && _nextHandler != null) { 
       _nextHandler.HandleOperation(operationChoice, ref matrixA, ref matrixB); 
       return;
@@ -22,7 +22,6 @@ public class SingleMatrixOperationHandler : MatrixOperationHandler {
     switch (operationChoice) {
     case 2:
       SquareMatrix transposed = (matrixChoice == 0) ? matrixA.Transpose() : matrixB.Transpose();
-
       Console.WriteLine($"Transposed {Data.MatrixList[matrixChoice]}\n");
       Console.WriteLine(transposed);
       Console.ReadKey();

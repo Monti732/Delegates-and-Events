@@ -27,7 +27,7 @@ public class MatrixManagementHandler : MatrixOperationHandler {
         matrixB = creationMatrixMenu.CreateMatrixWithOldSize(matrixA.Size);
       }
       else {
-        matrixA = creationMatrixMenu.CreateMatrixWithOldSize(matrixA.Size);
+        matrixB = creationMatrixMenu.CreateMatrixWithOldSize(matrixB.Size);
       }
 
       break;

@@ -4,8 +4,7 @@ public class Menu {
   private string[] _menuItems;
   protected int selectedIndex;
   private int _row, _col;
-  public int SelectedIndex => selectedIndex;
-
+  
   public event Action<int>? OnItemSelected;
   
   public Menu(string[] items) {
